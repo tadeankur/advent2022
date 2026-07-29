@@ -18,8 +18,12 @@ val mapElvesWithCalories = mutableMapOf<String, List<Int>>(
 fun calcLstElvesWithHigeshestCalories(mapWithCalories: Map<String, List<Int>>) =
     mapWithCalories.entries.maxByOrNull { it.value.sum() }
 
+fun calculateSumThreeHighestCalories(mapWithCalories: Map<String, List<Int>>) =
+    mapWithCalories.entries.sortedByDescending { it.value.sum() }.take(3).sumOf { it.value.sum() }
+
+
 fun readInputFileFromURL(): MutableMap<String, MutableList<Int>> {
-    val lines: List<String> = File("/Users/ankurtade/projects/Advent2025/src/main/resources/userinput.txt").readLines()
+    val lines: List<String> = File("/Users/ankurtade/projects/advent2022/src/main/resources/userinput.txt").readLines()
 
     return lines.foldIndexed(mutableMapOf()) { index, acc, line ->
         if (acc.isEmpty() || line.isBlank()) {
@@ -32,10 +36,10 @@ fun readInputFileFromURL(): MutableMap<String, MutableList<Int>> {
 }
 
 fun main() {
-    readInputFileFromURL()
+    val mapElvesWithCalories = readInputFileFromURL()
     val startTime = System.currentTimeMillis()
-    println(calcLstElvesWithHigeshestCalories(readInputFileFromURL())?.value?.sum())
+    println(calcLstElvesWithHigeshestCalories(mapElvesWithCalories)?.value?.sum())
     val endTime = System.currentTimeMillis()
     println("time taken to sort -> ${endTime - startTime}")
-
+    println(calculateSumThreeHighestCalories(mapElvesWithCalories))
 }
