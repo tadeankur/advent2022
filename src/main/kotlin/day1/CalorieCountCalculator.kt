@@ -1,4 +1,4 @@
-package no.bspoke.pam.konsument
+package no.bspoke.pam.konsument.day1
 
 import java.io.File
 import kotlin.collections.mutableMapOf
