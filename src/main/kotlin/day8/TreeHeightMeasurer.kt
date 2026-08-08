@@ -1,18 +1,18 @@
 package no.bspoke.pam.konsument.day8
 
 import no.bspoke.pam.konsument.day2.readInput
+import kotlin.collections.maxByOrNull
 import kotlin.collections.mutableListOf
 
 fun zipColumnTreesForChrimas(treeIndex: Int, source: MutableList<List<Int>>) = source.map { it[treeIndex] }.toList()
 
-fun main() {
+fun part1() {
     val treeMatrix = readInput("day8/userinput.txt")
 
     val lstTM = treeMatrix.fold(mutableListOf<List<Int>>()) { acc, string ->
-        acc.addAll(listOf(string.toCharArray().map { it.digitToInt() }))
+        acc += listOf(string.map { it.digitToInt() })
         acc
     }
-
     lstTM.foldIndexed(mutableListOf<Int>()) { rowIndex, acc, numbers ->
         println("$rowIndex and $numbers")
         if (rowIndex == 0 || rowIndex == lstTM.lastIndex) {
@@ -44,5 +44,51 @@ fun main() {
         }
         acc
     }.let { println(it.size) }
+}
+
+fun findFirstIndexOfSameOrMax(number: Int, lst: List<Int>): Int? {
+    if (number > lst.maxOrNull()!!) return lst.size
+    if (lst.indexOfFirst { it == number } == 0) return 1 else return lst.indexOfFirst { it == number || it > number } + 1
+}
+
+//part 2
+fun main() {
+    val treeMatrix = readInput("day8/userinput.txt")
+
+    val lstTM = treeMatrix.fold(mutableListOf<List<Int>>()) { acc, string ->
+        acc += listOf(string.map { it.digitToInt() })
+        acc
+    }
+
+
+    lstTM.foldIndexed(mutableListOf<Int>()) { rowIndex, acc, numbers ->
+        println("$rowIndex and $numbers")
+        if (rowIndex != 0 && rowIndex != lstTM.lastIndex) {
+            // compare current with first and last and see if it's bigger than that. If it's smaller or same size
+            // then ignore it.
+            // compare current with first and last and see if it's bigger than that. If it's smaller or same size
+            // then ignore it.
+            numbers.forEachIndexed() { index, number ->
+
+                println("$index and $number")
+                // find the max for the row
+                //Ignore the  trees on edge for comparison
+                val lstColumn = zipColumnTreesForChrimas(index, lstTM)
+
+                if (index != 0 && index != numbers.lastIndex) {
+                    acc.add(
+                        findFirstIndexOfSameOrMax(number, numbers.take(index).reversed())!! //left
+                                *
+                                findFirstIndexOfSameOrMax(number, numbers.drop(index + 1))!! //right
+                                *
+                                findFirstIndexOfSameOrMax(number, lstColumn.take(rowIndex).reversed())!!  //top
+                                *
+                                findFirstIndexOfSameOrMax(number, lstColumn.drop(rowIndex + 1))!!  //bottom
+                    )
+                }
+            }
+        }
+        acc
+    }.let { println(it) }
 }
 
