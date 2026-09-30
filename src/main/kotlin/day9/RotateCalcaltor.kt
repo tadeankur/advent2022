@@ -1,6 +1,5 @@
 package no.bspoke.pam.konsument.day9
 
-import no.bspoke.pam.konsument.day2.readInput
 import kotlin.collections.mutableListOf
 import kotlin.math.abs
 
@@ -84,12 +83,19 @@ fun akkumlerePostion(
 }
 
 fun main() {
-     val traversing = readInput("day9/userinput.txt")
+    // val traversing = readInput("day9/userinput.txt")
 
-    /*val traversing = listOf<String>(
-        "R 4", "U 4", "L 3", "D 1", "R 4", "D 1", "L 5", "R 2"
+    val traversing = listOf<String>(
+                "R 5",
+                "U 8",
+                "L 8",
+                "D 3",
+                "R 17",
+                "D 10",
+                "L 25",
+                "U 20"
         //,"L 3", "D 1", "R 4"
-    )*/
+    )
     //"D 1", "R 4", "D 1" , "L 5" , "R 2")
     //"U 4", "L 3", "D 1", "R 4", "D 1", "L 5", "R 2")
 
@@ -101,7 +107,7 @@ fun main() {
             acc
         }.let { println(it) }
 
-    println("tailMovement = $tailMovement");
+    println("tailMovement = $tailMovement")
     println(tailMovement.toSet().size)
 }
 
